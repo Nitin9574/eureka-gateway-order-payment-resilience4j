@@ -1,5 +1,6 @@
 package com.qualigy.payment.service;
 
+
 import com.qualigy.payment.entity.Payment;
 import com.qualigy.payment.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,19 @@ import java.util.UUID;
 
 @Service
 public class PaymentService {
+
     @Autowired
     private PaymentRepository paymentRepository;
 
+//    public Payment doPayment(Payment payment) {
+//        payment.setTransactionId(UUID.randomUUID().toString());
+//        return paymentRepository.save(payment);
+//    }
+
+    // 2nd scenarios
     public Payment doPayment(Payment payment) {
         payment.setPaymentStatus(paymentProcessing());
-        payment.setTransactionId((UUID.randomUUID().toString()));
+        payment.setTransactionId(UUID.randomUUID().toString());
         return paymentRepository.save(payment);
     }
 
@@ -29,6 +37,7 @@ public class PaymentService {
         return new Exception("payment processing is fail due to low network connectivity");
     }
 
+    //after gateway impl
     public Payment findPaymentHistoryByOrderId(int orderId) {
         return paymentRepository.findByOrderId(orderId);
     }

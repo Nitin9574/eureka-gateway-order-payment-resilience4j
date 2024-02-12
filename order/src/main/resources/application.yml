@@ -1,9 +1,9 @@
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
 server:
   port: 8084
 spring:
@@ -21,36 +21,47 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+  config:
+    import: configserver:http://localhost:9196
+    name: application.yml
+    location: https://github.com/Nitin9574/cloud_config_server/blob/main/application.yml
 
-management:
-  health:
-    circuitbreakers:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: health
-  endpoint:
-    health:
-      show-details: always
+logging:
+  file:
+    name: D:/Springboot/elk_logs/microservices_elk_logs.log
 
 
-resilience4j:
-  circuitbreaker:
-    instances:
-      ORDER-SERVICE:
-        register-health-indicator: true
-        event-consumer-buffer-size: 10
-        failure-rate-threshold: 50
-        minimum-number-of-calls: 5
-        automatic-transition-from-open-to-half-open-enabled: true
-        wait-duration-in-open-state: 10s
-        permitted-number-of-calls-in-half-open-state: 3
-        sliding-window-size: 10
-        sliding-window-type: COUNT_BASED
-  # real time we need add max 2s duration and max attempt 2-3 times
-  retry:
-    instances:
-      ORDER-SERVICE:
-        max-attempts: 6
-        wait-duration: 10s
+
+
+#management:
+#  health:
+#    circuitbreakers:
+#      enabled: true
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health
+#  endpoint:
+#    health:
+#      show-details: always
+
+
+#resilience4j:
+#  circuitbreaker:
+#    instances:
+#      ORDER-SERVICE:
+#        register-health-indicator: true
+#        event-consumer-buffer-size: 10
+#        failure-rate-threshold: 50
+#        minimum-number-of-calls: 5
+#        automatic-transition-from-open-to-half-open-enabled: true
+#        wait-duration-in-open-state: 10s
+#        permitted-number-of-calls-in-half-open-state: 3
+#        sliding-window-size: 10
+#        sliding-window-type: COUNT_BASED
+#  # real time we need add max 2s duration and max attempt 2-3 times
+#  retry:
+#    instances:
+#      ORDER-SERVICE:
+#        max-attempts: 3
+#        wait-duration: 5s
